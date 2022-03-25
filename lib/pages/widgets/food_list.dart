@@ -3,7 +3,7 @@ import 'package:foodrec/model/favorite_model.dart';
 import 'package:foodrec/model/food_model.dart';
 import 'package:foodrec/pages/widgets/food_list_card.dart';
 
-class FoodList extends StatefulWidget {
+class FoodList extends StatelessWidget {
   final List<Food> foodList;
 
   const FoodList(
@@ -12,11 +12,6 @@ class FoodList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<FoodList> createState() => _FoodListState();
-}
-
-class _FoodListState extends State<FoodList> {
-  @override
   Widget build(BuildContext context) {
     return SliverPadding(
       padding: const EdgeInsets.symmetric(
@@ -24,24 +19,22 @@ class _FoodListState extends State<FoodList> {
         vertical: 8,
       ),
       sliver: SliverGrid.count(
-        crossAxisCount: gridAxis(),
+        crossAxisCount: gridAxis(context),
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        children: List.generate(widget.foodList.length, (index) {
-          final food = widget.foodList[index];
+        children: List.generate(foodList.length, (index) {
+          final food = foodList[index];
           return FoodListCard(
             food: food,
             onTap: () {
-              Navigator.pushNamed(context, '/detail', arguments: food)
-                  .then((value) => setState(() {}));
+              Navigator.pushNamed(context, '/detail', arguments: food);
             },
             onTapFavorite: () {
               if (food.isFavorite) {
-                Favorite.removeFoodFromFavorite(food, widget.foodList);
+                Favorite.removeFoodFromFavorite(food, foodList);
               } else {
-                Favorite.addFoodToFavorite(food, widget.foodList);
+                Favorite.addFoodToFavorite(food, foodList);
               }
-              setState(() {});
             },
           );
         }),
@@ -49,7 +42,7 @@ class _FoodListState extends State<FoodList> {
     );
   }
 
-  int gridAxis() {
+  int gridAxis(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     if (width > 800) {
       return 4;

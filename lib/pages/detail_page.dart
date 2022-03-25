@@ -4,15 +4,8 @@ import 'package:foodrec/common.dart';
 import 'package:foodrec/model/food_model.dart';
 import 'package:foodrec/style.dart';
 
-class DetailPage extends StatefulWidget {
+class DetailPage extends StatelessWidget {
   const DetailPage({Key? key}) : super(key: key);
-
-  @override
-  State<DetailPage> createState() => _DetailPageState();
-}
-
-class _DetailPageState extends State<DetailPage> {
-  bool _isFavorited = false;
 
   @override
   Widget build(BuildContext context) {

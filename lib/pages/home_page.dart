@@ -7,23 +7,18 @@ import 'package:foodrec/pages/widgets/food_list.dart';
 import 'package:foodrec/pages/widgets/section_header.dart';
 import 'package:foodrec/style.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final List<Food> _foodList = Food.foodList;
-  @override
   Widget build(BuildContext context) {
+    final List<Food> _foodList = Food.foodList;
     return Scaffold(
       body: Stack(
         children: [
           CustomScrollView(
             slivers: [
-              _appBar(),
+              _appBar(context, _foodList),
               _titleSpace(),
               const PromotionCarousel(),
               const SectionHeader(title: 'Happy Breakfast!'),
@@ -35,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SliverAppBar _appBar() {
+  SliverAppBar _appBar(BuildContext context, List<Food> foodList) {
     return SliverAppBar(
       systemOverlayStyle: SystemUiOverlayStyle.light,
       backgroundColor: kPrimary,
@@ -46,15 +41,7 @@ class _HomePageState extends State<HomePage> {
           ),
           tooltip: 'Favorite',
           onPressed: () {
-            Navigator.pushNamed(
-              context,
-              '/favorite',
-              arguments: _foodList,
-            ).then(
-              (value) => {
-                setState(() {}),
-              },
-            );
+            Navigator.pushNamed(context, '/favorite', arguments: foodList);
           },
         ),
       ],
